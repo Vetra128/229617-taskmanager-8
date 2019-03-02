@@ -1,4 +1,21 @@
 'use strict';
+const Filter = {
+  ALL: `All`,
+  OVERDUE: `Overdue`,
+  TODAY: `Today`,
+  FAVORITES: `Favorites`,
+  REPEATING: `Repeating`,
+  TAGA: `Tags`,
+  ARCHIVE: `archive`
+};
+
+const filterWrapper = document.querySelector(`.main__filter`);
+const cardWrapper = document.querySelector(`.board__tasks`);
+
+const getRandomInteger = (min = 1, max = 100) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 const getFilterElement = (caption, amound = 0, isChecked = false) => {
   return `<input 
           type="radio" 
@@ -306,4 +323,15 @@ ${text}</textarea
               </div>
             </form>
           </article>`;
-}
+};
+
+let fragmentFilter = ``;
+
+Object.values(Filter).forEach((entry) => {
+  fragmentFilter += getFilterElement(`${entry}`, getRandomInteger());
+});
+filterWrapper.innerHTML = ``;
+
+filterWrapper.insertAdjacentHTML(`beforeend`, fragmentFilter);
+
+
