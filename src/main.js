@@ -348,6 +348,6 @@ const renderTasks = (num = getRandomInteger()) => {
 
 renderTasks(NUMBER_OF_CARDS);
 
-filterWrapper.addEventListener(`click`, (e) => {
+filterWrapper.addEventListener(`click`, () => {
   renderTasks();
 });
