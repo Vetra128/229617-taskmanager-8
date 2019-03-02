@@ -9,10 +9,12 @@ const Filter = {
   ARCHIVE: `archive`
 };
 
+const NUMBER_OF_CARDS = 7;
+
 const filterWrapper = document.querySelector(`.main__filter`);
 const cardWrapper = document.querySelector(`.board__tasks`);
 
-const getRandomInteger = (min = 1, max = 100) => {
+const getRandomInteger = (min = 1, max = 10) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
@@ -26,7 +28,7 @@ const getFilterElement = (caption, amound = 0, isChecked = false) => {
   <label 
   for="filter__${caption.toLowerCase()}"
    class="filter__label">
-  ${caption}<span class="filter__${caption.toLowerCase()}-count">${amound}</span>
+  ${caption} <span class="filter__${caption.toLowerCase()}-count">${amound}</span>
   </label>`;
 };
 
@@ -325,13 +327,27 @@ ${text}</textarea
           </article>`;
 };
 
-let fragmentFilter = ``;
+let fragment = ``;
 
 Object.values(Filter).forEach((entry) => {
-  fragmentFilter += getFilterElement(`${entry}`, getRandomInteger());
+  fragment += getFilterElement(`${entry}`, getRandomInteger());
 });
 filterWrapper.innerHTML = ``;
 
-filterWrapper.insertAdjacentHTML(`beforeend`, fragmentFilter);
+filterWrapper.insertAdjacentHTML(`beforeend`, fragment);
 
+const renderTasks = (num = getRandomInteger()) => {
+  fragment = ``;
+  cardWrapper.innerHTML = ``;
+  for (let i = 0; i < num; i++) {
+    fragment += getCardElement();
+  }
 
+  cardWrapper.insertAdjacentHTML(`beforeend`, fragment);
+};
+
+renderTasks(NUMBER_OF_CARDS);
+
+filterWrapper.addEventListener(`click`, (e) => {
+  renderTasks();
+});
