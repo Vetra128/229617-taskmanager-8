@@ -6,7 +6,7 @@ const Filter = {
   FAVORITES: `Favorites`,
   REPEATING: `Repeating`,
   TAGA: `Tags`,
-  ARCHIVE: `archive`
+  ARCHIVE: `archive`,
 };
 
 const NUMBER_OF_CARDS = 7;
@@ -14,21 +14,20 @@ const NUMBER_OF_CARDS = 7;
 const filterWrapper = document.querySelector(`.main__filter`);
 const cardWrapper = document.querySelector(`.board__tasks`);
 
-const getRandomInteger = (min = 1, max = 10) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+const getRandomInteger = (min = 1, max = 10) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 const getFilterElement = (caption, amound = 0, isChecked = false) => {
+  const captionLowerCase = caption.toLowerCase();
   return `<input 
           type="radio" 
-          id="filter__${caption.toLowerCase()}" 
+          id="filter__${captionLowerCase}" 
           class="filter__input visually-hidden" 
           name="filter" ${isChecked ? `checked` : ``}
           />
   <label 
   for="filter__${caption.toLowerCase()}"
    class="filter__label">
-  ${caption} <span class="filter__${caption.toLowerCase()}-count">${amound}</span>
+  ${caption} <span class="filter__${captionLowerCase}-count">${amound}</span>
   </label>`;
 };
 
@@ -329,25 +328,30 @@ ${text}</textarea
 
 let fragment = ``;
 
-Object.values(Filter).forEach((entry) => {
-  fragment += getFilterElement(`${entry}`, getRandomInteger());
-});
-filterWrapper.innerHTML = ``;
+const renderFilters = (filters) => {
+  Object.values(filters).forEach((name) => {
+    fragment += getFilterElement(name, getRandomInteger());
+  });
+  filterWrapper.innerHTML = ``;
 
-filterWrapper.insertAdjacentHTML(`beforeend`, fragment);
+  filterWrapper.insertAdjacentHTML(`beforeend`, fragment);
+};
 
 const renderTasks = (num = getRandomInteger()) => {
   fragment = ``;
   cardWrapper.innerHTML = ``;
-  for (let i = 0; i < num; i++) {
+  while (num > 0) {
+    num -= 1;
     fragment += getCardElement();
   }
 
   cardWrapper.insertAdjacentHTML(`beforeend`, fragment);
 };
 
+renderFilters(Filter);
+
 renderTasks(NUMBER_OF_CARDS);
 
-filterWrapper.addEventListener(`click`, () => {
+filterWrapper.addEventListener(`change`, () => {
   renderTasks();
 });
