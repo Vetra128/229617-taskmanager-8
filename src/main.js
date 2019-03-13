@@ -1,6 +1,7 @@
 import {getRandomInteger} from './utils';
 import getFilterElement from './filter-element';
 import getCardElement from './card-element';
+import {cardList} from './data';
 
 const Filter = {
   ALL: `All`,
@@ -33,7 +34,7 @@ const renderTasks = (num = getRandomInteger()) => {
   cardWrapper.innerHTML = ``;
   while (num > 0) {
     num -= 1;
-    fragment += getCardElement();
+    fragment += getCardElement(cardList[0]);
   }
 
   cardWrapper.insertAdjacentHTML(`beforeend`, fragment);
